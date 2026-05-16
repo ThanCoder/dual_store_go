@@ -1,8 +1,9 @@
 package main
 
 import (
-	smalldata "dual_store/small_data"
 	"fmt"
+
+	smalldata "github.com/ThanCoder/dual_store_go/small_data"
 )
 
 ///home/thancoder/Downloads/Apyar App/apyar.dual.db
