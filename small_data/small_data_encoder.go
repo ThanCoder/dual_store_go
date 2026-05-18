@@ -29,7 +29,7 @@ func NewSmallDataEncoder() *SmallDataEncoder {
 }
 
 // write key
-func (e *SmallDataEncoder) WriteKey(key int32) error {
+func (e *SmallDataEncoder) WriteKey(key int) error {
 	if key < 0 || key > 255 {
 		return errors.New("key must be between 0 and 255")
 	}
@@ -38,7 +38,7 @@ func (e *SmallDataEncoder) WriteKey(key int32) error {
 }
 
 // write int
-func (e *SmallDataEncoder) WriteInt(key int32, value int64) error {
+func (e *SmallDataEncoder) WriteInt(key int, value int64) error {
 	if err := e.WriteKey(key); err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func (e *SmallDataEncoder) WriteInt(key int32, value int64) error {
 }
 
 // write double
-func (e *SmallDataEncoder) WriteDouble(key int32, value float64) error {
+func (e *SmallDataEncoder) WriteDouble(key int, value float64) error {
 	if err := e.WriteKey(key); err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func (e *SmallDataEncoder) WriteDouble(key int32, value float64) error {
 }
 
 // write bool
-func (e *SmallDataEncoder) WriteBool(key int32, value bool) error {
+func (e *SmallDataEncoder) WriteBool(key int, value bool) error {
 	if err := e.WriteKey(key); err != nil {
 		return err
 	}
@@ -82,7 +82,7 @@ func (e *SmallDataEncoder) WriteBool(key int32, value bool) error {
 }
 
 // write string
-func (e *SmallDataEncoder) WriteString(key int32, value string) error {
+func (e *SmallDataEncoder) WriteString(key int, value string) error {
 	if err := e.WriteKey(key); err != nil {
 		return err
 	}
