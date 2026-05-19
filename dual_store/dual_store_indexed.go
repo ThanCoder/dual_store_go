@@ -19,15 +19,17 @@ type DualStoreIndexed struct {
 }
 
 func NewDualStoreIndexed(dbPath string) (*DualStoreIndexed, error) {
+	// write file
+	wFile, err := os.OpenFile(dbPath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		return nil, fmt.Errorf("Failed to Open Write: %v\n", err)
+	}
+
 	//read file
 	rFile, err := os.OpenFile(dbPath, os.O_RDONLY, 0666)
 
 	if err != nil {
 		return nil, fmt.Errorf("Failed to Open Read: %v\n", err)
-	}
-	wFile, err := os.OpenFile(dbPath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0666)
-	if err != nil {
-		return nil, fmt.Errorf("Failed to Open Write: %v\n", err)
 	}
 
 	return &DualStoreIndexed{
@@ -139,4 +141,26 @@ func (ds *DualStoreIndexed) ReadRecordMeta() (*RecordMeta, error) {
 
 	return meta, nil
 
+}
+
+// write record without progress
+func (dis *DualStoreIndexed) WriteRecordWithoutProgress(record DualRecord) error {
+	progress := func(progress float64) {
+
+	}
+	return dis.WriteRecord(record, progress)
+}
+
+// write record
+func (dis *DualStoreIndexed) WriteRecord(record DualRecord, onProgress func(progress float64)) error {
+
+	offset, err := record.Write(dis.writeRaf, onProgress)
+	if err != nil {
+		return err
+	}
+
+	newMeta := record.ToMeta(offset)
+	dis.All_Records[record.ID] = newMeta
+
+	return nil
 }

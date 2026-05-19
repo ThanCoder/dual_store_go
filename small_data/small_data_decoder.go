@@ -73,17 +73,29 @@ func (d *SmallDataDecoder) decodeAll() error {
 }
 
 func (d *SmallDataDecoder) PrintAllData() {
-	for key, value := range d.decodedData {
-		fmt.Printf("Key: %d, Value: %v (Type: %T)\n", key, value, value)
-	}
+	// for key, value := range d.decodedData {
+	println("------------")
+	// fmt.Printf("Key: %d, Value: %v (Type: %T)\n", key, value, value)
+	fmt.Printf("Data: %v\n", d.decodedData)
+	println("------------")
+	// }
 	// fmt.Println(d.decodedData)
 }
 
+// default -> 0
+func (d *SmallDataDecoder) GetIntDefault(key int) int64 {
+	return d.GetInt(key, 0)
+}
 func (d *SmallDataDecoder) GetInt(key int, defVal int64) int64 {
 	if val, ok := d.decodedData[key].(int64); ok {
 		return val
 	}
 	return defVal
+}
+
+// default -> 0.0
+func (d *SmallDataDecoder) GetDoubleDefault(key int) float64 {
+	return d.GetDouble(key, 0.0)
 }
 func (d *SmallDataDecoder) GetDouble(key int, defVal float64) float64 {
 	if val, ok := d.decodedData[key].(float64); ok {
@@ -91,11 +103,21 @@ func (d *SmallDataDecoder) GetDouble(key int, defVal float64) float64 {
 	}
 	return defVal
 }
+
+// default -> false
+func (d *SmallDataDecoder) GetBoolDefault(key int) bool {
+	return d.GetBool(key, false)
+}
 func (d *SmallDataDecoder) GetBool(key int, defVal bool) bool {
 	if val, ok := d.decodedData[key].(bool); ok {
 		return val
 	}
 	return defVal
+}
+
+// default -> empty
+func (d *SmallDataDecoder) GetStringDefault(key int) string {
+	return d.GetString(key, "")
 }
 func (d *SmallDataDecoder) GetString(key int, defVal string) string {
 	if val, ok := d.decodedData[key].(string); ok {
